@@ -29,3 +29,6 @@ length' xs = sum [1 | _ <- xs]
 
 -- Example 5
 removeNonUppercase st = [c | c <- st, c `elem` ['A'..'Z']]
+
+-- Example 6
+listInsideList xxs = [ [x | x <- xs, even x ] | xs <- xxs ]
