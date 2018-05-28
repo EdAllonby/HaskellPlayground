@@ -12,3 +12,20 @@ rightAngledTriangleGenerator hypotenuseLimit = triangleFilter hypotenuseLimit (\
 
 rightTriangles :: Int -> Int -> [(Int, Int, Int)]
 rightTriangles hypotenuseLimit summationTarget = rightAngledTriangleGenerator hypotenuseLimit (\a b c -> a + b + c == summationTarget)
+
+-- Example 2
+boomBangs :: [Int] -> [String] 
+boomBangs xs = [ if x < 10 then "Boom!" else "Bang!" | x <- xs, odd x]
+
+boomBangs' :: Int -> Int -> [String]
+boomBangs' start end = boomBangs [start .. end]
+
+-- Example 3
+crossJoin :: [(Int, Int)]
+crossJoin = [(x, y) | x <- [1..10], y <- [x..10], x + y > 15]
+
+-- Example 4
+length' xs = sum [1 | _ <- xs]
+
+-- Example 5
+removeNonUppercase st = [c | c <- st, c `elem` ['A'..'Z']]
