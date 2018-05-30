@@ -25,6 +25,7 @@ crossJoin :: [(Int, Int)]
 crossJoin = [(x, y) | x <- [1..10], y <- [x..10], x + y > 15]
 
 -- Example 4
+length' :: [a] -> Int
 length' xs = sum [1 | _ <- xs]
 
 -- Example 5
