@@ -32,3 +32,6 @@ removeNonUppercase st = [c | c <- st, c `elem` ['A'..'Z']]
 
 -- Example 6
 listInsideList xxs = [ [x | x <- xs, even x ] | xs <- xxs ]
+
+-- Example 7 - Two infinite lists zipped makes an infinite list of tuples.
+zipping = zip [1..] [6..]
