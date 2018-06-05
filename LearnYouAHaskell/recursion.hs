@@ -46,4 +46,17 @@ quicksort [] = []
 quicksort (x:xs) =
     let smallerOrEqual = [a | a <- xs, a <= x]
         larger = [a | a <- xs, a > x]
-    in quicksort smallerOrEqual ++ [x] ++ larger
+    in quicksort smallerOrEqual ++ [x] ++ quicksort larger
+
+factorial' :: Integer -> Integer
+factorial' 0 = 1
+factorial' n = n * factorial' (n - 1)
+
+doublefactorial' :: Integer -> Integer
+doublefactorial' 0 = 1
+doublefactorial' 1 = 1
+doublefactorial' n = n * doublefactorial' (n - 2)
+
+-- Just an example of how to do the above non-recursively as an exercise
+doublefactorialNonRecursive' :: Integer -> Integer
+doublefactorialNonRecursive' n = product [n,n-2..1]
