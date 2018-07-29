@@ -13,10 +13,12 @@ chain n
     | even n = n:chain (n `div` 2)
     | odd n = n:chain (n*3 + 1)
 
+-- Problem 14:
+-- Unfortunately this is ridiculously slow... but works! Memoization would be the correct way here. Implement with scan?
 numLongChains = length (filter isLong (map chain [1..100]))
     where isLong xs = length xs > 15
 
-firstChainAboveValue value = head (filter (\x -> length x > value) (map chain [1..]))
+listToTupleMap :: ([a] -> a) -> ([a] -> b) -> [a] -> (a, b)
+listToTupleMap firstFn secondFn xs = (firstFn xs, secondFn xs)
 
--- Unfortunately this is rediculously slow... but works!
-problem14 = fst (head ((sortBy (flip compare `on` snd)) (map (\x -> (head x, length x)) (map chain [1..999999]))))
+problem14 = fst . head . sortBy (flip compare `on` snd) . map (listToTupleMap head length) $ map chain [1..100]

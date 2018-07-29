@@ -104,3 +104,94 @@ largestDivisible =  head (filter p [9999999,9999998..])
     where p x = x `mod` 3829 == 0
 
 sumOfAllOddSquaresUnderTenThousand = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+-- By partially applying the multiply function, we can later call an argument to it.
+listOfFuns = map (*) [0..]
+listOfFunsCall = (listOfFuns !! 4) 5
+
+-- Lambdas are sometimes unneccessary. The following are equivalent
+mapWithoutLambda = map (+3) [1,6,3,2]
+mapWithLambda = map (\x -> x + 3) [1,6,3,2]
+
+zipWithLambda = zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]
+lambdaPatternMatch = map (\(a,b) -> a + b) [(1,2),(3,5),(6,3)]
+
+curryingExampleFirst x y z = x + y + z
+curryingExampleSecond = \x -> \y -> \z -> x + y + z 
+
+sumFolded xs = foldl (\acc x -> acc + x) 0 xs
+sumFoldedCurried :: (Num a) => [a] -> a
+sumFoldedCurried = foldl (+) 0 -- this is like saying (+ acc x) in each iteration. We don't need to define xs because the function returned expects an xs.
+
+-- Foldr works on infinite lists
+mapFolded f xs = foldr (\x acc -> f x : acc) [] xs
+
+elemUsingFold y ys = foldr (\x acc -> if x == y then True else acc) False ys
+
+-- This uses the first value as its starting value. These must not be an empty list.
+foldWithoutStartingValue :: (Ord a) => [a] -> a
+foldWithoutStartingValue = foldl1 max
+
+reverseUsingFold :: [a] -> [a]
+reverseUsingFold = foldl (\acc x -> x : acc) []
+-- This can also be done without a lamda, just by flipping the arguments for (:) cons function
+reverseUsingFoldWithoutLambda :: [a] -> [a]
+reverseUsingFoldWithoutLambda = foldl (flip (:)) []
+
+productUsingFold :: (Num a) => [a] -> a
+productUsingFold = foldl (*) 1
+
+filterUsingFold :: (a -> Bool) -> [a] -> [a]
+filterUsingFold p = foldr (\x acc -> if p x then x : acc else acc) []
+
+-- Here we're always disgarding the acc from the last pass. So the final pass will set the accumulator the the final element and return.
+lastUsingFold :: [a] -> a
+lastUsingFold = foldl1 (\_ x -> x)
+
+andWithFold :: [Bool] -> Bool
+andWithFold xs = foldr (&&) True xs
+andWithFoldInfinite = andWithFold (repeat False) -- Returns false. Doesn't go on forever
+
+-- Scan is similar to fold, but returns all the intermediate values
+scanExample = scanl (+) 0 [3,5,2,1]
+scanrExample = scanr (+) 0 [3,5,2,1]
+scanl1Example = scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]
+
+elemUsingScanr y ys = scanr (\x acc -> if x == y then True else acc) False ys
+scanlFlip = scanl (flip (:)) [] [3,2,1]
+
+-- How many elements does it take for the sum of the sqaure roots of all natural numebers to exceed 1000?
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
+
+expressionWithoutFunctionApplication = sum (filter (> 10) (map (*2) [2..10]))
+expressionWithFunctionApplication = sum $ filter (> 10) $ map (*2) [1..10]
+
+-- You can also treat an application like a function, for example
+mappingApplication = map ($ 3) [(4+), (10*), (^2), sqrt]
+
+-- Composition takes the result of one function and passes it into the next function. These functions must match input/output types.
+compositionExampleBefore = map (\x -> negate (abs x)) [5, -3, -6, 7, 1, -1]
+compositionExampleAfter = map (negate . abs) [5, -3, -6, 7, 1, -1]
+
+compositionExample2Before = map (\xs -> negate (sum (tail xs))) [[1..5], [3..6], [1..7]]
+compositionExample2After = map (negate . sum . tail) [[1..5], [3..6], [1..7]]
+
+compositionWithMutlipleParametersBefore = sum (replicate 5 (max 6.7 8.9))
+compositionWithMutlipleParametersAfter = sum . replicate 5 $ max 6.7 8.9
+
+-- Function application ($) for zipWith, then follow the '(' up and replace with composition (.)
+compositionHowToBefore = replicate 2 (product (map (*3) (zipWith max [1,2] [4,5])))
+compositionHowToAfter = replicate 2 . product . map (*3) $ zipWith max [1,2] [4,5]
+
+-- Point free style - If you have an argument at the end of a function, you can remove it from both sides (because of currying)
+pointFreeStyleBefore xs = foldl (+) 0 xs
+pointFreeStyleAfter :: (Num a) => [a] -> a
+pointFreeStyleAfter = foldl (+) 0
+
+-- You can't make this a point free style because x is deeply nested. But you can convert it using composition so x is at the end.
+pointFreeStyleComplicatedBefore x = ceiling (negate (tan (cos (max 50 x))))
+pointFreeStyleComplicatedIntermediate x = ceiling . negate . tan . cos $ max 50 x
+pointFreeStyleComplicatedAfter = ceiling . negate . tan . cos . max 50
+
+oddSquareSumCompositionBefore = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+oddSquareSumCompositionAfter = sum . takeWhile (<10000) . filter odd $ map (^2) [1..]
