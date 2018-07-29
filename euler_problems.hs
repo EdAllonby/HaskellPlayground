@@ -15,10 +15,7 @@ chain n
 
 -- Problem 14:
 -- Unfortunately this is ridiculously slow... but works! Memoization would be the correct way here. Implement with scan?
-numLongChains = length (filter isLong (map chain [1..100]))
-    where isLong xs = length xs > 15
-
-listToTupleMap :: ([a] -> a) -> ([a] -> b) -> [a] -> (a, b)
-listToTupleMap firstFn secondFn xs = (firstFn xs, secondFn xs)
-
-problem14 = fst . head . sortBy (flip compare `on` snd) . map (listToTupleMap head length) $ map chain [1..100]
+problem14 = fst . head . sortBy (flip compare `on` snd) . map (listToTupleMap head length) $ map chain [1..999999]
+    where listToTupleMap firstFn secondFn xs = (firstFn xs, secondFn xs)
+          numLongChains = length (filter isLong (map chain [1..100]))
+          isLong xs = length xs > 15
