@@ -102,3 +102,5 @@ quicksortFilterExample (x:xs) =
 largestDivisible :: Integer
 largestDivisible =  head (filter p [9999999,9999998..])
     where p x = x `mod` 3829 == 0
+
+sumOfAllOddSquaresUnderTenThousand = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
