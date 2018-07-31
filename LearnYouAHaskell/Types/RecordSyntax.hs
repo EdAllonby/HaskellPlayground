@@ -115,5 +115,3 @@ lockers = Map.fromList
         [(100,(Taken, "ZD39I"))
         ,(101,(Free, "12345"))
         ,(102,(Free, "54321"))]
-
-        
