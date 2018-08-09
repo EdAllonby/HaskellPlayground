@@ -28,3 +28,10 @@ stringLengthPlusOne xs = w `x` 1
 identity = \x -> x
 
 first (a, b) = a
+
+-- Pet is the type constructor. Cat and dog are data constructors. Cat is nullary. Dog takes 1 argument
+-- Pet is declared with a Data declaration. Data declaration always creates a new type constructor, but may not create data constructors.
+data Pet = Cat | Dog Name
+
+-- The following is a type alias
+type Name = String
