@@ -1,0 +1,1 @@
+ones x = snd (divMod x 10)
