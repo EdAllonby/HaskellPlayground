@@ -3,13 +3,15 @@ module VigenereCipher where
 import Data.Char
 import Data.Bool
 
-caesar _ [] = []
-caesar n (x:xs) =  chr shift : caesar n xs
+shiftChar :: Int -> Char -> Char
+shiftChar n x =  chr shift
     where shift = base + mod (ord x + n - base) (end - base + 1)
           base = bool (ord 'a') (ord 'A') (isUpper x)
           end = bool (ord 'z') (ord 'Z') (isUpper x)
 
-unCaesar n xs = caesar (negate n) xs
+vigenereCipher :: String -> String -> String
+vigenereCipher secret str = zipWith f str (getShiftsForString secret str)
+    where f a b = shiftChar (abs (ord 'A' - ord b)) a -- TODO: Make this work for lowercase and underscore (non alpha chars)
 
 getShiftsForString :: String -> String -> String
 getShiftsForString secret = snd . foldr (\x acc -> bool (nonSpace x acc) (space x acc) (isSpace x)) (0, "")

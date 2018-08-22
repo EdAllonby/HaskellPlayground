@@ -1,5 +1,5 @@
 module Cipher where
-    
+
 import Data.Char
 import Data.Bool
 
