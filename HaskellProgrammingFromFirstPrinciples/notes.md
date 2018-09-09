@@ -16,3 +16,8 @@
 * Create a project using `stack new name simple`
 * Set the prompt using `:set prompt "Lambda> "`
 * You can use `let` in a do block to assign a value. i.e. `let person = mkPerson name (read age :: Integer)`
+
+## Chapter 14
+
+* To generate quick check data, create a tuple and then uncurry the values. Check [Chapter14/quickCheckExercise.hs](./Chapter14/quickCheckExercise.hs) for inspiration.
+* Create random test data with Gen, i.e. `sample (arbitrary :: Gen [[Int]])`
