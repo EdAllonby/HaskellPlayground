@@ -21,3 +21,7 @@
 
 * To generate quick check data, create a tuple and then uncurry the values. Check [Chapter14/quickCheckExercise.hs](./Chapter14/quickCheckExercise.hs) for inspiration.
 * Create random test data with Gen, i.e. `sample (arbitrary :: Gen [[Int]])`
+
+## Chapter 15
+
+* Infix for `mappend` is `<>`
