@@ -137,7 +137,7 @@ instance Semigroup a => Semigroup (Validation' a b) where
     
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Validation' a b) where
     arbitrary = do
-        a <- arbitrary
+        a <- arbi`trary
         b <- arbitrary
         oneof [return $ Failure' a, return $ Success' b]
 
