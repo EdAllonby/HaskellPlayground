@@ -1,0 +1,16 @@
+-- How does it typecheck?
+-- (.) :: (b -> c) -> (a -> b) -> a -> c
+-- fmap :: Functor f => (m -> n) -> f m -> f n
+-- fmap :: Functor g => (x -> y) -> g x -> g y
+-- b ~ (m -> n)
+-- c ~ f m -> f n
+-- a ~ (x -> y)
+-- b ~ g x -> g y
+-- Substitute values in composition type
+-- (.) :: ((m -> n) -> f m -> f n) -> ((x -> y) -> g x -> g y) -> (x -> y) -> f m -> f n
+-- Becuase b ~ (m -> n) ~ g x -> g y
+-- m ~ g x
+-- n ~ g y
+-- Substitute m and n
+-- ((g x -> g y) -> f(g x) -> f(g y)) -> ((x -> y) -> g x -> g y) -> (x -> y) -> f(g x) -> f(g y)
+-- The final 3 parts are the result of the composition, which matches (fmap . fmap)

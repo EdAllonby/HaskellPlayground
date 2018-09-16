@@ -25,3 +25,7 @@
 ## Chapter 15
 
 * Infix for `mappend` is `<>`
+
+## Chapter 16
+
+* Use `:k (->)` to query kinds. This will produce the kind of a function type constructor.
