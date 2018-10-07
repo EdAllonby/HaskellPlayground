@@ -29,3 +29,7 @@
 ## Chapter 16
 
 * Use `:k (->)` to query kinds. This will produce the kind of a function type constructor.
+
+## Chapter 17
+
+* Applicatives are Monoidal Functors.
