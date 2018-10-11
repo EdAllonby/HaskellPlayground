@@ -23,6 +23,8 @@ divideMe3 = divider divideNested
 safeDiv :: Int -> Int -> Maybe Int
 safeDiv n m = if m == 0 then Nothing else Just $ div n m
 
+-- Safe Divider now has to go through each case to safely construct the result.
+-- As you can tell, this can quickly get deeply nested.
 safeDivider :: Expr -> Maybe Int
 safeDivider (Val a) = Just a
 safeDivider (Div x y) = case safeDivider x of
@@ -34,7 +36,7 @@ safeDivider (Div x y) = case safeDivider x of
 divideNested = Div (Val 6) (Div (Val 0) (Val 0))
 divideMe3' = safeDivider divideNested
 
--- Then we introduce the Maybe Monad to simplify the safe divider
+-- Then we introduce the Maybe Monad's operator (>>=) to simplify the safe divider
 monadicSafeDivider :: Expr -> Maybe Int
 monadicSafeDivider (Val n) = return n
 monadicSafeDivider (Div x y) = monadicSafeDivider x >>= (\n -> monadicSafeDivider y >>= (\o -> safeDiv n o))
