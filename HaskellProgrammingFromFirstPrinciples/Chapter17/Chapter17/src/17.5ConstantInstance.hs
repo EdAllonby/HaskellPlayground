@@ -1,4 +1,6 @@
-import Data.Monoid
+module ConstantInstance where
+
+import           Data.Monoid
 
 --Write an Applicative instance for Constant.
 newtype Constant a b = Constant { getConstant :: a } deriving (Eq, Ord, Show)

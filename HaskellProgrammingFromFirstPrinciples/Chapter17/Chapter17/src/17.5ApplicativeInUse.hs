@@ -1,10 +1,12 @@
-import Control.Applicative
-import Data.Char
+module ApplicativeInUse where
+
+import           Control.Applicative
+import           Data.Char
 
 -- With the list Applicative, we are mapping a plurality of functions over a plurality of values
 
 -- [ (+1) 2 , (+1) 4 , (*2) 2 , (*2) 4 ]
-listExample = [(+1), (*2)] <*> [2, 4] 
+listExample = [(+ 1), (* 2)] <*> [2, 4]
 
 tupleExample = (,) <$> [1, 2] <*> [3, 4]
 -- Similar to
@@ -22,24 +24,18 @@ maxExample' = liftA2 max [1, 2] [1, 4]
 l = lookup 3 [(3, "hello")]
 lLength = fmap length $ l
 
-c (x:xs) = toUpper x:xs
+c (x : xs) = toUpper x : xs
 upperL = fmap c $ l
 
-f x =
-    lookup x [ (3, "hello")
-    , (4, "julie")
-    , (5, "kbai")]
+f x = lookup x [(3, "hello"), (4, "julie"), (5, "kbai")]
 
-g y =
-    lookup y [ (7, "sup?")
-    , (8, "chris")
-    , (9, "aloha")]
+g y = lookup y [(7, "sup?"), (8, "chris"), (9, "aloha")]
 
 h z = lookup z [(2, 3), (5, 6), (7, 8)]
 m x = lookup x [(4, 10), (8, 13), (1, 9001)]
 
 concat = (++) <$> f 3 <*> g 7
-concat' = liftA2 (++) (f 3) (g 7) 
+concat' = liftA2 (++) (f 3) (g 7)
 
 adding = (+) <$> h 5 <*> m 1
 adding' = liftA2 (+) (h 5) (m 1)

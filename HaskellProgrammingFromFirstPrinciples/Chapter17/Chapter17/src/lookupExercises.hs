@@ -1,4 +1,6 @@
-import Data.List (elemIndex)
+module LookupExercises where
+
+import           Data.List                      ( elemIndex )
 
 -- 1
 added :: Maybe Integer

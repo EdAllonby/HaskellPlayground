@@ -1,12 +1,13 @@
 module Apl1 where
-import Control.Applicative
-import Data.Monoid
-import Test.QuickCheck
-import Test.QuickCheck.Checkers
-import Test.QuickCheck.Classes
 
-first = [1,2,3] <> [4,5,6]
-second = [1,2,3] ++ [4,5,6]
+import           Control.Applicative
+import           Data.Monoid
+import           Test.QuickCheck
+import           Test.QuickCheck.Checkers
+import           Test.QuickCheck.Classes
+
+first = [1, 2, 3] <> [4, 5, 6]
+second = [1, 2, 3] ++ [4, 5, 6]
 
 instance (Monoid a) => Semigroup (ZipList a) where
     (<>) = liftA2 mappend
