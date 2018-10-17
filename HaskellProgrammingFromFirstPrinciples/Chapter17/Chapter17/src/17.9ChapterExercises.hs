@@ -4,7 +4,6 @@ import           Control.Applicative
 import           Test.QuickCheck
 import           Test.QuickCheck.Checkers
 import           Test.QuickCheck.Classes
-import           Control.Applicative            ( liftA3 )
 
 data Pair a = Pair a a deriving (Eq, Show)
 
@@ -78,9 +77,9 @@ instance (Monoid a) => Applicative (Three' a) where
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Three' a b) where
     arbitrary = do
-    a <- arbitrary
-    b <- arbitrary
-    Three' a b <$> arbitrary
+        a <- arbitrary
+        b <- arbitrary
+        Three' a b <$> arbitrary
 
 instance (Eq a, Eq b) => EqProp (Three' a b) where
     (=-=) = eq
@@ -99,10 +98,10 @@ instance (Monoid a, Monoid b, Monoid c) => Applicative (Four a b c) where
 
 instance (Arbitrary a, Arbitrary b, Arbitrary c, Arbitrary d) => Arbitrary (Four a b c d) where
     arbitrary = do
-    a <- arbitrary
-    b <- arbitrary
-    c <- arbitrary
-    Four a b c <$> arbitrary
+        a <- arbitrary
+        b <- arbitrary
+        c <- arbitrary
+        Four a b c <$> arbitrary
 
 instance (Eq a, Eq b, Eq c, Eq d) => EqProp (Four a b c d) where
     (=-=) = eq
@@ -121,15 +120,15 @@ instance Functor (Four' a) where
     fmap f (Four' a b c d) = Four' a b c (f d)
 
 instance (Monoid a) => Applicative (Four' a) where
-    pure a = Four' mempty mempty mempty a
+    pure = Four' mempty mempty mempty
     (<*>) (Four' f g h i) (Four' a b c d) = Four' (mappend f a) (mappend g b) (mappend h c) (i d)
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Four' a b) where
     arbitrary = do
-    a <- arbitrary
-    b <- arbitrary
-    c <- arbitrary
-    Four' a b c <$> arbitrary
+        a <- arbitrary
+        b <- arbitrary
+        c <- arbitrary
+        Four' a b c <$> arbitrary
 
 instance (Eq a, Eq b) => EqProp (Four' a b) where
     (=-=) = eq
