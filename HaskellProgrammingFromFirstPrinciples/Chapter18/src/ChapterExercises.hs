@@ -173,9 +173,15 @@ meh (x : xs) f = liftM2 (++) head tail
     head = (: []) <$> f x
     tail = meh xs f
 
+meh' :: Monad m => [a] -> (a -> m b) -> m [b]
+meh' = flip traverse
+
 -- 6
 flipType :: (Monad m) => [m a] -> m [a]
 flipType x = meh x id
+
+flipType' :: (Monad m) => [m a] -> m [a]
+flipType' = sequence
 
 flipTypeTest1 = flipType [Just 1, Just 2, Just 3]
 flipTypeTest2 = flipType [Just 1, Nothing, Just 3]
