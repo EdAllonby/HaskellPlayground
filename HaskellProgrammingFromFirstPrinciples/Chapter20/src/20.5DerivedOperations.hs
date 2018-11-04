@@ -52,3 +52,27 @@ elem5 = elem 1 $ Just 1 -- It works!
 elem6 = elem 1 $ Nothing
 elem7 = fmap (elem 3) [Right 1, Right 2, Right 3]
 elem8 = (fmap . fmap) (elem 3) [Just $ Right 1, Just $ Right 2, Just $ Right 3]
+
+minimum1 = minimum ([] :: [Integer]) -- Cannot call on an empty list
+minimum2 = minimum [1, 2, 3]
+minimum3 = minimum $ Just 1
+minimum4 = minimum (Nothing :: Maybe Integer) -- Cannot call on an empty structure
+minimum5 = minimum "edward"
+minimum6 = fmap minimum $ Just "edward"
+minimum7 = length $ fmap minimum $ Just "edward"
+
+maximum1 = maximum ([] :: [Integer]) -- Cannot call on an empty list
+maximum2 = maximum "edward"
+maximum3 = maximum $ Just "edward"
+maximum4 = fmap maximum $ Just "edward"
+
+
+sum1 = sum $ Just 1
+sum2 = fmap sum $ Just [1, 2, 3]
+sum3 = fmap sum $ (Nothing :: Maybe [Integer])
+
+product1 = product $ Just 1
+product2 = fmap product $ [Just 1]
+product3 = product [1 .. 10] -- Same as 10! (factorial)
+product4 = product $ Right 1
+product5 = fmap product $ Right [1, 2, 3]
