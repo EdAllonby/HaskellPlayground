@@ -1,3 +1,5 @@
+module HuttonsWhatIsAMonad where
+
 -- https://www.youtube.com/watch?v=t1e8gqXLbsU
 -- Hutton's Computerphile episode
 -- This is an interesting Youtube video on explaining a Monad.
@@ -7,7 +9,7 @@
 data Expr = Val Int | Div Expr Expr deriving (Show)
 
 divider :: Expr -> Int
-divider (Val a) = a
+divider (Val a  ) = a
 divider (Div x y) = div (divider x) (divider y)
 
 divideVal = divider $ Val 1
@@ -26,12 +28,12 @@ safeDiv n m = if m == 0 then Nothing else Just $ div n m
 -- Safe Divider now has to go through each case to safely construct the result.
 -- As you can tell, this can quickly get deeply nested.
 safeDivider :: Expr -> Maybe Int
-safeDivider (Val a) = Just a
+safeDivider (Val a  ) = Just a
 safeDivider (Div x y) = case safeDivider x of
-                            Nothing -> Nothing
-                            Just x -> case safeDivider y of
-                                Nothing -> Nothing
-                                Just y -> safeDiv x y
+    Nothing -> Nothing
+    Just x  -> case safeDivider y of
+        Nothing -> Nothing
+        Just y  -> safeDiv x y
 
 divideNested = Div (Val 6) (Div (Val 0) (Val 0))
 divideMe3' = safeDivider divideNested
@@ -39,13 +41,15 @@ divideMe3' = safeDivider divideNested
 -- Then we introduce the Maybe Monad's operator (>>=) to simplify the safe divider
 monadicSafeDivider :: Expr -> Maybe Int
 monadicSafeDivider (Val n) = return n
-monadicSafeDivider (Div x y) = monadicSafeDivider x >>= (\n -> monadicSafeDivider y >>= (\o -> safeDiv n o))
+monadicSafeDivider (Div x y) =
+    monadicSafeDivider x
+        >>= (\n -> monadicSafeDivider y >>= (\o -> safeDiv n o))
 
 divideMeMonadic = monadicSafeDivider divideNestedSomething
 
--- And finally we refactor the above with Do notation to make it easier to read (or more sequencial how you view it) with less lamda expressions
+-- And finally we refactor the above with Do notation to make it easier to read (or more sequential how you view it) with less lambda expressions
 monadicDoSafeDivider :: Expr -> Maybe Int
-monadicDoSafeDivider (Val n) = return n
+monadicDoSafeDivider (Val n  ) = return n
 monadicDoSafeDivider (Div x y) = do
     a <- monadicDoSafeDivider x
     b <- monadicDoSafeDivider y
