@@ -18,3 +18,8 @@ traverseJust = traverse Just [1, 2, 3]
 -- traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
 mapMJust :: Maybe [Integer]
 mapMJust = mapM Just [1, 2, 3]
+
+-- traverse is map composed with sequence
+t f x = sequenceA ((fmap f) x)
+t' f x = (sequenceA . fmap f) x
+t'' f = sequenceA . fmap f
