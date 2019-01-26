@@ -105,3 +105,15 @@ rollsCountLogged n = go 0 0 []
         | otherwise
         = let (die, nextGen) = randomR (1, 6) gen
           in  go (currentSum + die) (count + 1) (intToDie die : dies) nextGen
+
+-- This is an attempt to use State get / put to produce random die.
+randomDie :: Int -> [Die]
+randomDie upTo =
+    let (_, _, die) = execState (replicateM upTo addDie) (mkStdGen 0, 0, [])
+    in  die
+
+addDie :: State (StdGen, Int, [Die]) ()
+addDie = do
+    (curGen, count, xs) <- get
+    let (die, nextGen) = randomR (1, 6) curGen
+    put (nextGen, count + 1, intToDie die : xs)
