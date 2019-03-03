@@ -4,6 +4,7 @@ import           System.Random
 import           Control.Applicative            ( liftA3 )
 import           Control.Monad                  ( replicateM )
 import           Control.Monad.Trans.State
+import           Control.Monad.State            ( liftIO )
 
 data Die =
     DieOne
@@ -117,3 +118,31 @@ addDie = do
     (curGen, count, xs) <- get
     let (die, nextGen) = randomR (1, 6) curGen
     put (nextGen, count + 1, intToDie die : xs)
+
+-- Next section not part of book, but want to get a better understanding 
+data DiceState = DiceState
+    { dice :: [Die]
+    , generator :: StdGen } deriving Show
+
+
+addDieToDice :: StateT DiceState IO Die
+addDieToDice = do
+    currentState <- get
+    let currentGen            = generator currentState
+    let currentDice           = dice currentState
+    let (dieInteger, nextGen) = randomR (1, 6) currentGen
+    let die                   = intToDie dieInteger
+    put (currentState { generator = nextGen, dice = die : currentDice })
+    return die
+
+diceRun :: StateT DiceState IO ()
+diceRun = do
+    dieAdded <- addDieToDice
+    liftIO $ print $ "The first die added was " ++ show dieAdded
+    anotherDie <- addDieToDice
+    liftIO $ print $ "The second die added was " ++ show anotherDie
+    return ()
+
+viewDiceRun :: IO DiceState
+viewDiceRun =
+    execStateT diceRun (DiceState { dice = [], generator = mkStdGen 0 })
