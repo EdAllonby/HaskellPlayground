@@ -21,3 +21,6 @@ g x = [x * 3, x * 2]
 -- (<=<) composes 2 monadic functions (b -> m c) -> (a -> m b) -> (a -> m c)
 h :: Integer -> [Integer]
 h = f <=< g
+
+branch :: Show a => a -> (IO (), IO ())
+branch x = (print x, print x)
