@@ -1,0 +1,4 @@
+Build with ghc -o audio ./audio.hs
+then play with 
+./audio | play -ts16 -c1 -r44100 -x -
+
