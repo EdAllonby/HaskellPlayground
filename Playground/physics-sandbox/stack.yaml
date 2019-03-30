@@ -1,9 +1,0 @@
-resolver: lts-13.14
-
-packages:
-  - .
-extra-deps:
-  - gloss-1.13.0.1
-  - gloss-rendering-1.13.0.2
-flags: {}
-extra-package-dbs: []

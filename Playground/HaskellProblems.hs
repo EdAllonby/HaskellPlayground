@@ -3,6 +3,7 @@
 module HaskellProblems where
 
 -- Problem 1
+import           Text.Read
 myLast :: [a] -> a
 myLast = foldr1 (const id)
 
