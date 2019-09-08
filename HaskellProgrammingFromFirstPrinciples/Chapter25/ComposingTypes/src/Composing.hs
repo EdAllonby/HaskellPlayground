@@ -2,6 +2,8 @@
 
 module Composing where
 
+import           Control.Applicative
+
 newtype Identity a = Identity { runIdentity :: a }
     deriving (Eq, Show)
 
@@ -46,3 +48,19 @@ newtype Three f g h a = Three (f (g (h a)))
 
 instance (Functor f, Functor g, Functor h) => Functor (Three f g h) where
     fmap f (Three fgha) = Three $ (fmap . fmap . fmap) f fgha
+
+liftedTwiceApply
+    :: (Applicative f1, Applicative f2, Applicative f3) => f1 (f2 (f3 (a -> b))) -> f1 (f2 (f3 a)) -> f1 (f2 (f3 b))
+liftedTwiceApply = (liftA2 . liftA2) (<*>)
+
+instance (Applicative f, Applicative g, Applicative h) => Applicative (Three f g h) where
+    pure x = Three $ pure . pure <$> pure x
+
+    (Three f) <*> (Three a) = Three $ f `liftedTwiceApply` a
+
+instance (Foldable f, Foldable g) => Foldable (Compose f g) where
+    foldMap :: (Monoid m) => (a -> m) -> Compose f g a -> m
+    foldMap f (Compose a) = (foldMap . foldMap) f a
+
+instance (Traversable f, Traversable g) => Traversable (Compose f g) where
+    traverse f (Compose a) = Compose <$> (traverse . traverse) f a
